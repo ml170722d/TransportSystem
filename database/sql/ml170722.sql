@@ -91,7 +91,7 @@ CREATE TABLE [Vehicle]
 	CONSTRAINT [VehicleTypeRule_1132913114]
 		CHECK  ( type BETWEEN 0 AND 2 ),
 	[consumption]        decimal(10,3)  NOT NULL ,
-	[licencePlate]       varchar(100)  NULL 
+	[licencePlate]       varchar(100)  NOT NULL 
 )
 go
 
