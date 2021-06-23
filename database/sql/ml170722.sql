@@ -86,7 +86,7 @@ go
 
 CREATE TABLE [Vehicle]
 ( 
-	[idV]                integer  NOT NULL ,
+	[idV]                integer  IDENTITY  NOT NULL ,
 	[type]               integer  NOT NULL 
 	CONSTRAINT [VehicleTypeRule_1132913114]
 		CHECK  ( type BETWEEN 0 AND 2 ),
