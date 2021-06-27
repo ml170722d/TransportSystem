@@ -1,4 +1,4 @@
-package rs.ca.bg.etf.student;
+package rs.ac.bg.etf.student;
 
 import rs.ac.bg.etf.student.ml170722.operations.*;
 import rs.ac.bg.etf.student.ml170722.operations.Package;
