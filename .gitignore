@@ -1,1 +1,13 @@
 .classpath
+/bin
+#----------------------------
+/database/*
+
+!/database/ml170722.erwin
+!/database/ml170722.png
+!/database/sql/
+#----------------------------
+/database/sql/*
+
+!/database/sql/ml170722.sql
+#----------------------------
