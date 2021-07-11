@@ -32,6 +32,7 @@ public class City implements CityOperations {
 
 			} catch (SQLException e) {
 				// e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 		}
 
@@ -52,6 +53,7 @@ public class City implements CityOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return affectedRows;
@@ -74,6 +76,7 @@ public class City implements CityOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return cityIDs;
@@ -96,6 +99,7 @@ public class City implements CityOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		return insertedID;
 	}

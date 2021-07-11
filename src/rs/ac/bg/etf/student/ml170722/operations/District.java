@@ -24,7 +24,8 @@ public class District implements DistrictOperations {
 			affectedRows = statement.executeUpdate();
 
 		} catch (SQLException e) {
-			// // e.printStackTrace();
+			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return affectedRows;
@@ -44,6 +45,7 @@ public class District implements DistrictOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return isAffected;
@@ -63,6 +65,7 @@ public class District implements DistrictOperations {
 
 			} catch (SQLException e) {
 				// e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 		}
 
@@ -85,6 +88,7 @@ public class District implements DistrictOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return districtIDs;
@@ -106,6 +110,7 @@ public class District implements DistrictOperations {
 			}
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return districtIDs;
@@ -131,6 +136,7 @@ public class District implements DistrictOperations {
 		
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		
 		return affectedRow;

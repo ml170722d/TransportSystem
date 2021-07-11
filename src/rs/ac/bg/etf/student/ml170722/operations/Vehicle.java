@@ -30,6 +30,7 @@ public class Vehicle implements VehicleOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return success;
@@ -52,6 +53,7 @@ public class Vehicle implements VehicleOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return success;
@@ -72,6 +74,7 @@ public class Vehicle implements VehicleOperations {
 
 			} catch (SQLException e) {
 				// e.printStackTrace();
+				System.err.println(e.getMessage());
 			}
 		}
 
@@ -93,6 +96,7 @@ public class Vehicle implements VehicleOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return list;
@@ -117,6 +121,7 @@ public class Vehicle implements VehicleOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return success;

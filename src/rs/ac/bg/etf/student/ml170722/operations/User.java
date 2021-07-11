@@ -28,6 +28,7 @@ public class User implements UserOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 
 			if (e.getMessage().contains("duplicate key"))
 				result = 1;
@@ -58,6 +59,7 @@ public class User implements UserOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return affectedRows;
@@ -79,6 +81,7 @@ public class User implements UserOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 		return list;
 	}
@@ -107,8 +110,9 @@ public class User implements UserOperations {
 				if (resultSet.getInt("cnt") == 0)
 					return null;
 
-		} catch (SQLException e1) {
+		} catch (SQLException e) {
 			// e1.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		query = String.format("SELECT SUM(sentPackages) AS sum FROM dbUser WHERE username IN (%s)", tmp.toString());
@@ -128,6 +132,7 @@ public class User implements UserOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return sum;
@@ -156,6 +161,7 @@ public class User implements UserOperations {
 
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 
 		return success;
