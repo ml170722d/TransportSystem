@@ -5,9 +5,12 @@
 
 !/database/ml170722.erwin
 !/database/ml170722.png
+!/database/ml170722.bak
 !/database/sql/
 #----------------------------
 /database/sql/*
 
 !/database/sql/ml170722.sql
+!/database/sql/ml170722-stored_procedure.sql
+!/database/sql/ml170722-triggers.sql
 #----------------------------
