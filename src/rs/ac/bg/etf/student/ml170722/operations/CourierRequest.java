@@ -1,8 +1,10 @@
 package rs.ac.bg.etf.student.ml170722.operations;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class CourierRequest implements CourierRequestOperation {
 	public boolean changeVehicleInCourierRequest(String arg0, String arg1) {
 		
 		String query = "UPDATE Courier SET idV=(SELECT idV FROM Vehicle WHERE licencePlate=?) "
-				+ "WHERE idU=(SELECT idU FROM dbUser WHERE username=?)";
+				+ "WHERE idU=(SELECT idU FROM dbUser WHERE username=?) AND status IS NULL";
 
 		boolean success = false;
 
@@ -38,7 +40,7 @@ public class CourierRequest implements CourierRequestOperation {
 	@Override
 	public boolean deleteCourierRequest(String arg0) {
 
-		String query = "DELETE FROM Courier WHERE idU = (SELECT idU FROM dbUser WHERE username=?)";
+		String query = "DELETE FROM Courier WHERE idU = (SELECT idU FROM dbUser WHERE username=?) AND status IS NULL";
 		boolean affectedRows = false;
 
 		try (PreparedStatement statement = DB.getInstance().getConnection().prepareStatement(query,
@@ -60,7 +62,7 @@ public class CourierRequest implements CourierRequestOperation {
 	public List<String> getAllCourierRequests() {
 
 		List<String> list = new ArrayList<String>();
-		String query = "SELECT username FROM dbUser WHERE idU = (SELECT idU FROM Courier)";
+		String query = "SELECT username FROM dbUser WHERE idU = (SELECT idU FROM Courier) AND status IS NULL";
 
 		try (PreparedStatement statement = DB.getInstance().getConnection().prepareStatement(query,
 				PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -80,8 +82,8 @@ public class CourierRequest implements CourierRequestOperation {
 	public boolean grantRequest(String arg0) {
 
 		boolean success = false;
-		String query = "UPDATE Courier status=?, profit=?, deliveredPackages=? WHERE ("
-				+ "SELECT idU FROM dbUser WHERE username=?" + ") = idU";
+		String query = "UPDATE Courier SET status=?, profit=?, deliveredPackages=? WHERE ("
+				+ "SELECT idU FROM dbUser WHERE username=?" + ") = idU AND status IS NULL";
 
 		try (PreparedStatement statement = DB.getInstance().getConnection().prepareStatement(query,
 				PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -107,22 +109,16 @@ public class CourierRequest implements CourierRequestOperation {
 	public boolean insertCourierRequest(String arg0, String arg1) {
 
 		boolean success = false;
-		String query = "INSERT INTO Courier (idV, status, profit, idU, deliveredPackages) VALUES ("
-				+ "(SELECT idV FROM Vehicle WHERE licencePlate=?), ?, ?, "
-				+ "(SELECT idU FROM dbUser WHERE username=?), ?)";
+		String query = "{? = call sp_newCourierRequest (?,?)}";
+		
+		try (CallableStatement statement = DB.getInstance().getConnection().prepareCall(query)) {
+			
+			statement.registerOutParameter(1, Types.INTEGER);
+			statement.setString(2, arg0);
+			statement.setString(3, arg1);
 
-		try (PreparedStatement statement = DB.getInstance().getConnection().prepareStatement(query,
-				PreparedStatement.RETURN_GENERATED_KEYS)) {
-
-			statement.setString(1, arg1);
-			statement.setNull(2, java.sql.Types.VARCHAR);
-			statement.setNull(3, java.sql.Types.VARCHAR);
-			statement.setString(4, arg0);
-			statement.setNull(5, java.sql.Types.INTEGER);
-
-			statement.executeUpdate();
-			ResultSet resultSet = statement.getGeneratedKeys();
-			if (resultSet.next())
+			statement.execute();
+			if (statement.getInt(1)>0)
 				success = true;
 
 		} catch (SQLException e) {
