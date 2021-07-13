@@ -5,6 +5,9 @@ go
 DROP TABLE [TransportOffer]
 go
 
+DROP TABLE [Drive]
+go
+
 DROP TABLE [Package]
 go
 
@@ -43,7 +46,7 @@ CREATE TABLE [Courier]
 	[status]             integer  NULL 
 	CONSTRAINT [CourierStatusRule_450020305]
 		CHECK  ( status BETWEEN 0 AND 1 ),
-	[profit]             varchar(100)  NULL ,
+	[profit]             decimal(10,3)  NULL ,
 	[idU]                integer  NOT NULL ,
 	[deliveredPackages]  integer  NULL 
 )
@@ -72,6 +75,14 @@ CREATE TABLE [District]
 )
 go
 
+CREATE TABLE [Drive]
+( 
+	[idDr]               integer  IDENTITY  NOT NULL ,
+	[idP]                integer  NOT NULL ,
+	[idU]                integer  NOT NULL 
+)
+go
+
 CREATE TABLE [Package]
 ( 
 	[idP]                integer  IDENTITY  NOT NULL ,
@@ -84,9 +95,10 @@ CREATE TABLE [Package]
 	[status]             integer  NOT NULL 
 	CONSTRAINT [PackageStatusRule_1173931480]
 		CHECK  ( status BETWEEN 0 AND 3 ),
-	[idU]                integer  NULL ,
+	[courier]            integer  NULL ,
 	[price]              decimal(10,3)  NULL ,
-	[deliveryTime]       datetime  NULL 
+	[deliveryTime]       datetime  NULL ,
+	[sender]             integer  NOT NULL 
 )
 go
 
@@ -96,7 +108,9 @@ CREATE TABLE [TransportOffer]
 	CONSTRAINT [MinPercentageRule_203229812]
 		CHECK  ( percentage >= 0 ),
 	[idP]                integer  NOT NULL ,
-	[idU]                integer  NOT NULL 
+	[idU]                integer  NOT NULL ,
+	[idTO]               integer  IDENTITY  NOT NULL ,
+	[accepted]           integer  NOT NULL 
 )
 go
 
@@ -147,12 +161,24 @@ ALTER TABLE [District]
 	ADD CONSTRAINT [XAK2District] UNIQUE ([X]  ASC,[Y]  ASC)
 go
 
+ALTER TABLE [Drive]
+	ADD CONSTRAINT [XPKDrive] PRIMARY KEY  CLUSTERED ([idDr] ASC)
+go
+
+ALTER TABLE [Drive]
+	ADD CONSTRAINT [XAK1Drive] UNIQUE ([idP]  ASC)
+go
+
 ALTER TABLE [Package]
 	ADD CONSTRAINT [XPKPackage] PRIMARY KEY  CLUSTERED ([idP] ASC)
 go
 
 ALTER TABLE [TransportOffer]
-	ADD CONSTRAINT [XPKTransportOffer] PRIMARY KEY  CLUSTERED ([idP] ASC,[idU] ASC)
+	ADD CONSTRAINT [XPKTransportOffer] PRIMARY KEY  CLUSTERED ([idTO] ASC)
+go
+
+ALTER TABLE [TransportOffer]
+	ADD CONSTRAINT [XAK1TransportOffer] UNIQUE ([idU]  ASC,[idP]  ASC)
 go
 
 ALTER TABLE [Vehicle]
@@ -191,8 +217,21 @@ ALTER TABLE [District]
 go
 
 
+ALTER TABLE [Drive]
+	ADD CONSTRAINT [R_29] FOREIGN KEY ([idP]) REFERENCES [Package]([idP])
+		ON DELETE CASCADE
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Drive]
+	ADD CONSTRAINT [R_30] FOREIGN KEY ([idU]) REFERENCES [Courier]([idU])
+		ON DELETE CASCADE
+		ON UPDATE NO ACTION
+go
+
+
 ALTER TABLE [Package]
-	ADD CONSTRAINT [R_19] FOREIGN KEY ([idU]) REFERENCES [Courier]([idU])
+	ADD CONSTRAINT [R_19] FOREIGN KEY ([courier]) REFERENCES [Courier]([idU])
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 go
@@ -205,6 +244,12 @@ go
 
 ALTER TABLE [Package]
 	ADD CONSTRAINT [R_13] FOREIGN KEY ([idDest]) REFERENCES [District]([idD])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Package]
+	ADD CONSTRAINT [R_28] FOREIGN KEY ([sender]) REFERENCES [dbUser]([idU])
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 go
