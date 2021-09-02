@@ -1,29 +1,40 @@
+ALTER DATABASE TransportSystem SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+GO
+USE MASTER
+GO
+DROP DATABASE IF EXISTS TransportSystem
+GO
+CREATE DATABASE TransportSystem
+GO
 
-DROP TABLE [Admin]
+USE TransportSystem
 go
 
-DROP TABLE [TransportOffer]
+DROP TABLE IF EXISTS [Admin]
 go
 
-DROP TABLE [Drive]
+DROP TABLE IF EXISTS [TransportOffer]
 go
 
-DROP TABLE [Package]
+DROP TABLE IF EXISTS [Drive]
 go
 
-DROP TABLE [Courier]
+DROP TABLE IF EXISTS [Package]
 go
 
-DROP TABLE [dbUser]
+DROP TABLE IF EXISTS [Courier]
 go
 
-DROP TABLE [Vehicle]
+DROP TABLE IF EXISTS [dbUser]
 go
 
-DROP TABLE [District]
+DROP TABLE IF EXISTS [Vehicle]
 go
 
-DROP TABLE [City]
+DROP TABLE IF EXISTS [District]
+go
+
+DROP TABLE IF EXISTS [City]
 go
 
 CREATE TABLE [Admin]

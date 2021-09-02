@@ -17,7 +17,7 @@ public class DB {
 	private static final String password = "123";
 	private static final String database = "TransportSystem";
 	private static final String server = "localhost";
-	private static final int port = 1433;
+	private static final int port = 1434;
 
 	private static final String URL = "jdbc:sqlserver://" + server + ":" + port + ";databaseName=" + database;
 

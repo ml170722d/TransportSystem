@@ -73,15 +73,15 @@ public class Courier implements CourierOperations {
 				ResultSet resultSet = statement.executeQuery();
 				int i = 0;
 				while (resultSet.next()) {
-					String query2 = "{ call sp_distance (?,?) }";
+					String query2 = "{ ? = call sp_distance (?) }";
 
 					CallableStatement statement2 = DB.getInstance().getConnection().prepareCall(query2);
 
-					statement2.setInt(1, resultSet.getInt("idP"));
-					statement2.registerOutParameter(2, Types.DECIMAL);
+					statement2.setInt(2, resultSet.getInt("idP"));
+					statement2.registerOutParameter(1, Types.DECIMAL);
 
 					statement2.execute();
-					avgDist = avgDist.add(statement2.getBigDecimal(2));
+					avgDist = avgDist.add(statement2.getBigDecimal(1));
 					avgConsumption = avgConsumption.add(Package.getCarConsumprionPerKM(resultSet.getInt("idV")));
 					i++;
 				}
