@@ -281,7 +281,8 @@ BEGIN
 	where u.idU=@idU and p.status=3
 
 	declare @dist decimal(10,3);
-	exec sp_distance @idP, @dist out;
+	--exec sp_distance @idP, @dist out;
+	exec @dist = sp_distance @idP;
 
 	update Courier
 	set profit=@sum - @consumprion*@dist*@fuelPrice,
